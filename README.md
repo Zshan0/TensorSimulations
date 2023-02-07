@@ -10,8 +10,12 @@ Dir. contains rough code for trying matrix multiplication and gate operation
 ## Gate
 Dir. contains code to apply gates to a density matrix.
 
-## [TODO] Kraus
+## Kraus
 Dir. contains code to apply Kraus operators to density matrix.
+
+### Depolarization
+Submodule of Kraus that applies the Kraus operators for depolarization noise.
+The Kraus operators are constructed with the help of google cirq.
 
 ## [TODO] Superoperator
 Dir. contains code to apply superoperators operators to density matrix.
