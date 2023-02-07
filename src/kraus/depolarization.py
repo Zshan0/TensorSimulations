@@ -6,7 +6,8 @@ from .kraus import Kraus, apply_kraus
 def _get_depolarization_kraus(num_qubits: int, p: float = 0.1):
     return cirq.kraus(cirq.depolarize(p, num_qubits))
 
-def _split_and_alternate(row:tn.Edge, col:tn.Edge, qubit_count:int) -> list[tn.Edge]:
+
+def _split_and_alternate(row: tn.Edge, col: tn.Edge, qubit_count: int) -> list[tn.Edge]:
     """
     Breaks the row, col edges for the nxn Kraus operator to obtain the higher
     dimensional tensor of the shape (2, 2, ...). The function also returns the
@@ -29,6 +30,7 @@ class Depolarization(Kraus):
         ops = _get_depolarization_kraus(num_qubits, p)
         super().__init__(ops, is_conj=is_conj, label="depol" + label)
 
+
 def depolarization(rho, p):
     """
     Apply depolarization channel to many-qubit system.
@@ -38,7 +40,7 @@ def depolarization(rho, p):
         - p: Parameter for the depolarization channel
 
     Returns:
-        - Edges for the new density matrix in the standard order of 
+        - Edges for the new density matrix in the standard order of
             (row, col, rol, ...)
     """
     num_qubits = len(rho[0])

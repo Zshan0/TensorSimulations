@@ -24,6 +24,7 @@ def test_depol_one_qubit():
     )
     npt.assert_allclose(result.tensor, expected)
 
+
 def test_depol_two_qubit():
     nodes_set = set()
     rho = np.array([[1.0, 2.0], [3.0, 4.0]])
@@ -35,9 +36,7 @@ def test_depol_two_qubit():
     with tn.NodeCollection(nodes_set):
         rho1 = tn.Node(rho, name="rho")
         rho2 = tn.Node(rho, name="rho")
-        output_edges = depolarization(
-            ([rho1[0], rho2[0]], [rho1[1], rho2[1]]), p
-        )
+        output_edges = depolarization(([rho1[0], rho2[0]], [rho1[1], rho2[1]]), p)
 
     row, col = _split_list(output_edges)
     output_edges = [x for edge_pair in zip(row, col) for x in edge_pair]

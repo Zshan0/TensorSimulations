@@ -1,6 +1,7 @@
 import tensornetwork as tn
 
-def _split_and_alternate(row:tn.Edge, col:tn.Edge, qubit_count:int) -> list[tn.Edge]:
+
+def _split_and_alternate(row: tn.Edge, col: tn.Edge, qubit_count: int) -> list[tn.Edge]:
     """
     Breaks the row, col edges for the nxn Kraus operator to obtain the higher
     dimensional tensor of the shape (2, 2, ...). The function also returns the

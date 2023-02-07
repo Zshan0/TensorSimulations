@@ -11,11 +11,11 @@ def _get_depolarization_kraus(num_qubits: int, p: float = 0.1):
 
 
 def _split_list(a_list):
-    half = len(a_list)//2
+    half = len(a_list) // 2
     return a_list[:half], a_list[half:]
 
 
-def _split_and_alternate(row:tn.Edge, col:tn.Edge, qubit_count:int) -> list[tn.Edge]:
+def _split_and_alternate(row: tn.Edge, col: tn.Edge, qubit_count: int) -> list[tn.Edge]:
     """
     Breaks the row, col edges for the nxn Kraus operator to obtain the higher
     dimensional tensor of the shape (2, 2, ...). The function also returns the
@@ -31,7 +31,7 @@ def _split_and_alternate(row:tn.Edge, col:tn.Edge, qubit_count:int) -> list[tn.E
 class Kraus(tn.Node):
     def __init__(self, ops, is_conj=False, label=""):
         """
-        Construct the Node representing the Kraus operators. The tensor will be 
+        Construct the Node representing the Kraus operators. The tensor will be
         a list of :math:`4^n` operators of shape :math:`(2, 2, ...)`, a series
         of twos of length :math:`2n`.
         """
@@ -65,10 +65,9 @@ class Depolarization(Kraus):
         super().__init__(ops, is_conj=is_conj, label="depol" + label)
 
 
-
 def apply_kraus(
     rho: tuple[list[tn.Edge], list[tn.Edge]], kraus: tn.Node, kraus_t: tn.Node
-) ->  list[tn.Edge]:
+) -> list[tn.Edge]:
     _ = kraus.edges[0] ^ kraus_t.edges[0]
 
     k_row, k_col = _split_list(kraus.edges[1:])
@@ -90,7 +89,7 @@ def depolarization(rho, p):
         - p: Parameter for the depolarization channel
 
     Returns:
-        - Edges for the new density matrix in the standard order of 
+        - Edges for the new density matrix in the standard order of
             (row, col, rol, ...)
     """
     num_qubits = len(rho[0])

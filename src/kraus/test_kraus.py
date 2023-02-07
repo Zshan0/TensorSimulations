@@ -18,9 +18,10 @@ def _get_sum(kraus: tn.Node):
     _ = kraus.edges[0] ^ tn_eye.edges[0]
     _ = kraus.edges[1] ^ tn_eye.edges[2]
 
+
 def test_sum():
     """
-    Testing the logic of attaching the kraus picker edge leads to product and 
+    Testing the logic of attaching the kraus picker edge leads to product and
     then sum.
     """
     np_kraus = np.array(
@@ -46,18 +47,14 @@ def test_kraus_two_qubit():
     rho = np.array([[1.0, 0.0], [0.0, 1.0]])
     rho_2 = np.kron(rho, rho)
     # Kraus ops corresponding to bitflip error of 0.1 chance
-    kraus_1 = np.array([[0.9, 0.0], 
-                        [0.0, 0.9]])
+    kraus_1 = np.array([[0.9, 0.0], [0.0, 0.9]])
 
-    kraus_2 = np.array([[0.0, 0.1], 
-                        [0.1, 0.0]])
+    kraus_2 = np.array([[0.0, 0.1], [0.1, 0.0]])
     kraus_one_qubit = [kraus_1, kraus_2]
     # Constructing Kraus for two qubit by taking cartesian product.
-    kraus_two_qubit = tuple([
-            np.kron(x, y)
-            for x in kraus_one_qubit
-            for y in kraus_one_qubit
-        ])
+    kraus_two_qubit = tuple(
+        [np.kron(x, y) for x in kraus_one_qubit for y in kraus_one_qubit]
+    )
 
     with tn.NodeCollection(nodes_set):
         tn_kraus = Kraus(kraus_two_qubit)
@@ -89,6 +86,7 @@ def test_kraus_two_qubit():
 
     npt.assert_allclose(result, reshaped_exp)
 
+
 def test_kraus_one_qubit():
     nodes_set = set()
     rho = np.array([[1.0, 2.0], [3.0, 4.0]])
@@ -103,12 +101,9 @@ def test_kraus_one_qubit():
         tn_kraus_t = tn.Node(np.array([kraus_1, kraus_2]), name="Kraus_t")
 
         rho1 = tn.Node(rho, name="rho")
-        output_edges = apply_kraus(
-            ([rho1[0]], [rho1[1]]), tn_kraus, tn_kraus_t
-        )
+        output_edges = apply_kraus(([rho1[0]], [rho1[1]]), tn_kraus, tn_kraus_t)
 
     result = tn.contractors.auto(nodes_set, output_edge_order=output_edges)
     # Applying the formula of krhalf_pointrators
     expected = (kraus_1 @ rho @ kraus_1) + (kraus_2 @ rho @ kraus_2)
     npt.assert_array_equal(result.tensor, expected)
-

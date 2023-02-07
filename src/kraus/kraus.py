@@ -2,13 +2,13 @@ import tensornetwork as tn
 
 import numpy as np
 import tensornetwork as tn
-from ..utils import _split_list, _split_and_alternate 
+from ..utils import _split_list, _split_and_alternate
 
 
 class Kraus(tn.Node):
     def __init__(self, ops, is_conj=False, label=""):
         """
-        Construct the Node representing the Kraus operators. The tensor will be 
+        Construct the Node representing the Kraus operators. The tensor will be
         a list of :math:`4^n` operators of shape :math:`(2, 2, ...)`, a series
         of twos of length :math:`2n`.
         """
@@ -33,7 +33,7 @@ class Kraus(tn.Node):
 
 def apply_kraus(
     rho: tuple[list[tn.Edge], list[tn.Edge]], kraus: tn.Node, kraus_t: tn.Node
-) ->  list[tn.Edge]:
+) -> list[tn.Edge]:
     _ = kraus.edges[0] ^ kraus_t.edges[0]
 
     k_row, k_col = _split_list(kraus.edges[1:])
