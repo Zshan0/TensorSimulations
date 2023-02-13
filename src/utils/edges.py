@@ -1,6 +1,9 @@
 import tensornetwork as tn
 
 
+def _split_edges(row: tn.Edge, qubit_count: int) -> list[tn.Edge]:
+    dim = tuple([2] * qubit_count)
+    return tn.split_edge(row, dim, [f"row:{ind}" for ind in range(len(dim))])
 def _split_and_alternate(row: tn.Edge, col: tn.Edge, qubit_count: int) -> list[tn.Edge]:
     """
     Breaks the row, col edges for the nxn Kraus operator to obtain the higher
