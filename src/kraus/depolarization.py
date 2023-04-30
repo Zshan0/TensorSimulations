@@ -41,7 +41,7 @@ def depolarization(rho, p):
 
     Returns:
         - Edges for the new density matrix in the standard order of
-            (row, col, rol, ...)
+            (row_0, row_1, ..., col_0, col_1, ...)
     """
     num_qubits = len(rho[0])
     kraus = Depolarization(num_qubits, p)

@@ -34,13 +34,16 @@ class Kraus(tn.Node):
 def apply_kraus(
     rho: tuple[list[tn.Edge], list[tn.Edge]], kraus: tn.Node, kraus_t: tn.Node
 ) -> list[tn.Edge]:
-    _ = kraus.edges[0] ^ kraus_t.edges[0]
 
     k_row, k_col = _split_list(kraus.edges[1:])
     kt_row, kt_col = _split_list(kraus_t.edges[1:])
 
-    for (k, k_t, rho_row, rho_col) in zip(k_row, kt_col, rho[0], rho[1]):
-        _ = k ^ rho_col
-        _ = rho_row ^ k_t
+    # Connecting the sum loop
+    _ = kraus.edges[0] ^ kraus_t.edges[0]
 
-    return kt_row + k_col
+    # Connecting the row, col edges
+    for (k, k_t, rho_row, rho_col) in zip(k_col, kt_row, rho[0], rho[1]):
+        _ = k ^ rho_row
+        _ = k_t ^ rho_col
+
+    return k_row + kt_col
